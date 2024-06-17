@@ -24,7 +24,7 @@ def sum_square_with_mp(numbers):
     start_time=time.time()
 
     #Creating a pool objecg
-    p=Pool()
+    p=Pool(processes=12)
 
     #Take a function and a list of iterable and maps all of the iterables of the function onto the processors of the machine
     result=p.map(sum_square, numbers)
