@@ -9,8 +9,10 @@
 #jobs can be submitted. It supports asynchronous results with timeouts and 
 #callbacks and has a parallel map implementation
 
+import multiprocessing
 import time
 from multiprocessing import Pool
+from concurrent.futures import ThreadPoolExecutor
 
 #Loop through the range of number and sum 0 to that number squared
 def sum_square(number):
@@ -23,7 +25,7 @@ def sum_square_with_mp(numbers):
 
     start_time=time.time()
 
-    #Creating a pool objecg
+    #Creating a pool object
     p=Pool()
 
     #Take a function and a list of iterable and maps all of the iterables of the function onto the processors of the machine
@@ -35,7 +37,7 @@ def sum_square_with_mp(numbers):
 
     end_time = time.time()-start_time
     
-    print("Processing " + str(len(numbers)) + " numbers took " + str(end_time) + " time using multiprocessing.")
+    print("Processing " + str(len(numbers)) + " numbers took " + str(end_time) + " time using Pool from multiprocessing.")
 
 
 def sum_square_no_mp(numbers):
@@ -48,12 +50,21 @@ def sum_square_no_mp(numbers):
     
     print("Processing " + str(len(numbers)) + " numbers took " + str(end_time) + " time using serial processing.")
 
+def sum_square_with_threads(numbers):
+    start_time=time.time()
+    with ThreadPoolExecutor(max_workers=multiprocessing.cpu_count()) as executor:
+        result=list(executor.map(sum_square, numbers))
+        print(result)
+
+    end_time=time.time()-start_time
+    print("Processing " + str(len(numbers)) + " numbers took " + str(end_time) + " time using threads from multiproccessing.")
 
 if __name__== '__main__':
 
     numbers=range(10000) 
     sum_square_with_mp(numbers)
     sum_square_no_mp(numbers)
+    sum_square_with_threads(numbers)
 
     
     
