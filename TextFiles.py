@@ -1,6 +1,7 @@
 #This class creates multiple text files in python
 
 import argparse
+import subprocess
 
 def parse_args():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -11,7 +12,10 @@ def parse_args():
     
 
 def createTextFile(number):
-    f=open(f'file{number}.txt','w') 
+    subprocess.call('mkdir -p files', shell=True)
+    
+    f=open(f'files/file{number}.txt','w') 
+    
 
 
 if __name__ == '__main__':
